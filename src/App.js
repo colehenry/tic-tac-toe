@@ -27,9 +27,9 @@ export default function Game() {
     }
     if (move === currentMove) {
       return (
-      <li>
+      <div>
         <>Current move: {currentMove}</>
-      </li>
+      </div>
       )
     } else {
     return (
@@ -47,7 +47,6 @@ export default function Game() {
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay = {handlePlay} />
       </div>
       <div className="game-info">
-        
         <ol>{moves}</ol>
       </div>
     </div>
@@ -76,7 +75,37 @@ function Board({ xIsNext, squares, onPlay }) {
       onPlay(nextSquares);
     }
 
+    let board = [];
+    
+    board.push(<div className="status">{status}</div>);
+
+    for (let i = 0; i < 3; i++) {
+      let row = [];
+      for (let j = 0; j < 3; j++) {
+        let index = i * 3 + j;
+        row.push(
+          <Square
+            value={squares[index]}
+            onSquareClick={() => handleClick(index)}
+            key={index}
+          />
+        );
+      }
+      board.push(
+        <div className="board-row" key={i}>
+          {row}
+        </div>
+      );
+    }
+
     return(
+      <>
+      {board}
+      </>
+    );
+  }
+
+/*
     <>
       <div className="status">{status}</div>
       <div className="board-row">
@@ -95,8 +124,7 @@ function Board({ xIsNext, squares, onPlay }) {
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
     </>
-    );
-  }
+  */
 
   function Square({ value, onSquareClick }) {
     return (
